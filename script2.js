@@ -95,6 +95,17 @@ function showOnly(id) {
 
 mainContainer.addEventListener("click", function (event) {
   //   console.log();
+  if (event.target.classList.contains("card-delete-btn")) {
+    const parenNode = event.target.parentNode.parentNode;
+    const companyName = parenNode.querySelector("#company").innerText;
+
+    interview = interview.filter((item) => item.companyName != companyName);
+    rejected = rejected.filter((item) => item.companyName != companyName);
+    parenNode.remove();
+    calculateCount();
+    visibilityFunction();
+    return;
+  }
   if (event.target.classList.contains("interview-btn")) {
     const parenNode = event.target.parentNode.parentNode;
     const companyName = parenNode.querySelector("#company").innerText;
@@ -176,7 +187,7 @@ function renderInterview() {
               </h3>
               <p id="job-title" class="text-[#64748B]">${each.jobTitle}</p>
             </div>
-            <button id="delete" class="btn">
+            <button class="btn card-delete-btn">
               <i class="fa-regular fa-trash-can"></i>
             </button>
           </div>
@@ -226,7 +237,7 @@ function renderRejected() {
               </h3>
               <p id="job-title" class="text-[#64748B]">${each.jobTitle}</p>
             </div>
-            <button id="delete" class="btn">
+            <button class="btn card-delete-btn">
               <i class="fa-regular fa-trash-can"></i>
             </button>
           </div>
@@ -264,11 +275,11 @@ function renderRejected() {
   }
 }
 
-mainContainer.addEventListener("click", function (event) {
+/* mainContainer.addEventListener("click", function (event) {
   if (event.target.classList.contains("card-delete-btn")) {
     const parenNode = event.target.parentNode.parentNode;
     parenNode.remove();
     calculateCount();
     visibilityFunction();
   }
-});
+}); */
