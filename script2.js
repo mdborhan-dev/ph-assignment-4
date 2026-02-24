@@ -161,11 +161,6 @@ mainContainer.addEventListener("click", function (event) {
     calculateCount();
     visibilityFunction();
   }
-  if (event.target.classList.contains("card-delete-btn")) {
-    document.querySelectorAll("main").classList.contains("card1").remove();
-    calculateCount();
-    visibilityFunction();
-  }
 });
 
 function renderInterview() {
@@ -268,3 +263,12 @@ function renderRejected() {
     filteredRejectedSection.appendChild(div);
   }
 }
+
+mainContainer.addEventListener("click", function (event) {
+  if (event.target.classList.contains("card-delete-btn")) {
+    const parenNode = event.target.parentNode.parentNode;
+    parenNode.remove();
+    calculateCount();
+    visibilityFunction();
+  }
+});
