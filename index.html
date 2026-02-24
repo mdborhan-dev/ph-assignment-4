@@ -1,0 +1,479 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <!-- font -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Geist:wght@100..900&display=swap"
+      rel="stylesheet"
+    />
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <link
+      href="https://cdn.jsdelivr.net/npm/daisyui@5"
+      rel="stylesheet"
+      type="text/css"
+    />
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css"
+      integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+    <style>
+      .geist-font {
+        font-family: "Geist", sans-serif;
+      }
+    </style>
+  </head>
+  <body class="geist-font w-11/12 sm:10/12 mx-auto my-[30px]">
+    <header class="space-y-5">
+      <h1 class="text-[32px] font-bold text-[#002C5C]">
+        Job Application Tracker
+      </h1>
+      <div class="contaier flex max-sm:flex-col justify-between gap-4">
+        <div class="total p-5 bg-base-200 w-full rounded-md">
+          <h3>Total</h3>
+          <p id="totalCount" class="text-2xl font-bold text-[#002C5C]">0</p>
+        </div>
+        <div class="interview p-5 bg-base-200 w-full rounded-md">
+          <h3>Interview</h3>
+          <p id="interviewCount" class="text-2xl font-bold text-[#10B981]">0</p>
+        </div>
+        <div class="rejected p-5 bg-base-200 w-full rounded-md">
+          <h3>Rejected</h3>
+          <p id="rejectedCount" class="text-2xl font-bold text-[#EF4444]">0</p>
+        </div>
+      </div>
+      <hr class="text-neutral/20" />
+    </header>
+    <main>
+      <section id="nav-btn" class="space-y-5 py-5">
+        <div class="flex justify-between">
+          <h3 id="tabHead" class="text-[20px] font-semibold">Available Jobs</h3>
+          <p class="text-neutral/70"><span id="count">0</span> jobs</p>
+        </div>
+        <div class="space-x-2">
+          <button
+            onclick="showOnly('all-section-btn')"
+            id="all-section-btn"
+            class="btn btn-primary"
+          >
+            All
+          </button>
+          <button
+            onclick="showOnly('interview-section-btn')"
+            id="interview-section-btn"
+            class="btn"
+          >
+            Interview
+          </button>
+          <button
+            onclick="showOnly('rejected-section-btn')"
+            id="rejected-section-btn"
+            class="btn"
+          >
+            Rejected
+          </button>
+        </div>
+      </section>
+      <!-- no jobs available section -->
+      <section
+        id="no-jobs"
+        class="text-center flex flex-col bg-base-200 items-center gap-5 py-28 px-6 rounded-md hidden"
+      >
+        <img class="sm:w-[10%] w-[35%]" src="./jobs.png" />
+        <div>
+          <h2 class="text-2xl font-semibold">No jobs available</h2>
+          <p class="text-neutral/60">
+            Check back soon for new job opportunities
+          </p>
+        </div>
+      </section>
+      <!-- filtered section -->
+      <section id="filtered-interview-section" class="hidden"></section>
+      <section id="filtered-rejected-section" class="hidden"></section>
+      <!-- All Cards -->
+      <section id="all-cards" class="space-y-4">
+        <!-- Card 1 -->
+        <div id="card1" class="space-y-5 p-6 bg-base-200 rounded-md">
+          <div id="job-title-container" class="flex justify-between">
+            <div>
+              <h3 id="company" class="text-[18px] font-semibold text-[#002C5C]">
+                Mobile First Corp
+              </h3>
+              <p id="job-title" class="text-[#64748B]">
+                React Native Developer
+              </p>
+            </div>
+            <button class="btn card-delete-btn">
+              <i class="fa-regular fa-trash-can"></i>
+            </button>
+          </div>
+          <div>
+            <p
+              class="text-[#64748B] text-[14px] loading-[20px] max-sm:grid max-sm:grid-cols-1"
+            >
+              <span id="location">Remote</span
+              ><span class="max-sm:hidden"> • </span
+              ><span id="job-time">Full-time</span
+              ><span class="max-sm:hidden"> • </span>
+              <span id="job-salary">$130,000 - $175,000</span>
+            </p>
+          </div>
+          <div>
+            <p
+              id="status"
+              class="text-[#002C5C] py-3 px-2 bg-[#EEF4FF] w-fit text-[14px] loading-[20px] font-medium mb-2"
+            >
+              Not Applied
+            </p>
+            <p id="note">
+              Build cross-platform mobile applications using React Native. Work
+              on products used by millions of users worldwide.
+            </p>
+          </div>
+          <div id="buttons">
+            <button id="" class="btn btn-success btn-outline interview-btn">
+              Interviewed
+            </button>
+            <button id="" class="btn btn-error btn-outline rejected-btn">
+              Rejected
+            </button>
+          </div>
+        </div>
+        <!-- Card 2 -->
+        <div class="space-y-5 p-6 bg-base-200 rounded-md">
+          <div id="job-title-container" class="flex justify-between">
+            <div>
+              <h3 id="company" class="text-[18px] font-semibold text-[#002C5C]">
+                CloudScale Systems
+              </h3>
+              <p id="job-title" class="text-[#64748B]">Frontend Engineer</p>
+            </div>
+            <button class="btn card-delete-btn">
+              <i class="fa-regular fa-trash-can"></i>
+            </button>
+          </div>
+          <div>
+            <p
+              class="text-[#64748B] text-[14px] loading-[20px] max-sm:grid max-sm:grid-cols-1"
+            >
+              <span id="location">Onsite</span
+              ><span class="max-sm:hidden"> • </span
+              ><span id="job-time">Full-time</span
+              ><span class="max-sm:hidden"> • </span>
+              <span id="job-salary">$110,000 - $145,000</span>
+            </p>
+          </div>
+          <div>
+            <p
+              id="status"
+              class="text-[#002C5C] py-3 px-2 bg-[#EEF4FF] w-fit text-[14px] loading-[20px] font-medium mb-2"
+            >
+              Not Applied
+            </p>
+            <p id="note">
+              Develop modern web interfaces using React and Tailwind CSS while
+              collaborating with backend teams on scalable systems.
+            </p>
+          </div>
+          <div id="buttons">
+            <button id="" class="btn btn-success btn-outline interview-btn">
+              Interviewed
+            </button>
+            <button id="" class="btn btn-error btn-outline rejected-btn">
+              Rejected
+            </button>
+          </div>
+        </div>
+
+        <!-- Card 3 -->
+        <div class="space-y-5 p-6 bg-base-200 rounded-md">
+          <div id="job-title-container" class="flex justify-between">
+            <div>
+              <h3 id="company" class="text-[18px] font-semibold text-[#002C5C]">
+                FinEdge Solutions
+              </h3>
+              <p id="job-title" class="text-[#64748B]">Backend Developer</p>
+            </div>
+            <button class="btn card-delete-btn">
+              <i class="fa-regular fa-trash-can"></i>
+            </button>
+          </div>
+          <div>
+            <p
+              class="text-[#64748B] text-[14px] loading-[20px] max-sm:grid max-sm:grid-cols-1"
+            >
+              <span id="location">Remote</span
+              ><span class="max-sm:hidden"> • </span
+              ><span id="job-time">Full-time</span
+              ><span class="max-sm:hidden"> • </span>
+              <span id="job-salary">$120,000 - $150,000</span>
+            </p>
+          </div>
+          <div>
+            <p
+              id="status"
+              class="text-[#002C5C] py-3 px-2 bg-[#EEF4FF] w-fit text-[14px] loading-[20px] font-medium mb-2"
+            >
+              Not Applied
+            </p>
+            <p id="note">
+              Design secure APIs and maintain microservices handling high-volume
+              financial transactions.
+            </p>
+          </div>
+          <div id="buttons">
+            <button id="" class="btn btn-success btn-outline interview-btn">
+              Interviewed
+            </button>
+            <button id="" class="btn btn-error btn-outline rejected-btn">
+              Rejected
+            </button>
+          </div>
+        </div>
+
+        <!-- Card 4 -->
+        <div class="space-y-5 p-6 bg-base-200 rounded-md">
+          <div id="job-title-container" class="flex justify-between">
+            <div>
+              <h3 id="company" class="text-[18px] font-semibold text-[#002C5C]">
+                PixelCraft Studio
+              </h3>
+              <p id="job-title" class="text-[#64748B]">UI/UX Engineer</p>
+            </div>
+            <button class="btn card-delete-btn">
+              <i class="fa-regular fa-trash-can"></i>
+            </button>
+          </div>
+          <div>
+            <p
+              class="text-[#64748B] text-[14px] loading-[20px] max-sm:grid max-sm:grid-cols-1"
+            >
+              <span id="location">Hybrid</span
+              ><span class="max-sm:hidden"> • </span
+              ><span id="job-time">Part-time</span
+              ><span class="max-sm:hidden"> • </span>
+              <span id="job-salary">$70,000 - $95,000</span>
+            </p>
+          </div>
+          <div>
+            <p
+              id="status"
+              class="text-[#002C5C] py-3 px-2 bg-[#EEF4FF] w-fit text-[14px] loading-[20px] font-medium mb-2"
+            >
+              Not Applied
+            </p>
+            <p id="note">
+              Craft intuitive user experiences and maintain scalable design
+              systems for SaaS applications.
+            </p>
+          </div>
+          <div id="buttons">
+            <button id="" class="btn btn-success btn-outline interview-btn">
+              Interviewed
+            </button>
+            <button id="" class="btn btn-error btn-outline rejected-btn">
+              Rejected
+            </button>
+          </div>
+        </div>
+
+        <!-- Card 5 -->
+        <div class="space-y-5 p-6 bg-base-200 rounded-md">
+          <div id="job-title-container" class="flex justify-between">
+            <div>
+              <h3 id="company" class="text-[18px] font-semibold text-[#002C5C]">
+                AI Nexus
+              </h3>
+              <p id="job-title" class="text-[#64748B]">
+                Machine Learning Engineer
+              </p>
+            </div>
+            <button class="btn card-delete-btn">
+              <i class="fa-regular fa-trash-can"></i>
+            </button>
+          </div>
+          <div>
+            <p
+              class="text-[#64748B] text-[14px] loading-[20px] max-sm:grid max-sm:grid-cols-1"
+            >
+              <span id="location">Remote</span
+              ><span class="max-sm:hidden"> • </span
+              ><span id="job-time">Full-time</span
+              ><span class="max-sm:hidden"> • </span>
+              <span id="job-salary">$135,000 - $180,000</span>
+            </p>
+          </div>
+          <div>
+            <p
+              id="status"
+              class="text-[#002C5C] py-3 px-2 bg-[#EEF4FF] w-fit text-[14px] loading-[20px] font-medium mb-2"
+            >
+              Not Applied
+            </p>
+            <p id="note">
+              Build predictive models and deploy scalable ML solutions powering
+              intelligent automation tools.
+            </p>
+          </div>
+          <div id="buttons">
+            <button id="" class="btn btn-success btn-outline interview-btn">
+              Interviewed
+            </button>
+            <button id="" class="btn btn-error btn-outline rejected-btn">
+              Rejected
+            </button>
+          </div>
+        </div>
+
+        <!-- Card 6 -->
+        <div class="space-y-5 p-6 bg-base-200 rounded-md">
+          <div id="job-title-container" class="flex justify-between">
+            <div>
+              <h3 id="company" class="text-[18px] font-semibold text-[#002C5C]">
+                BrightPath Analytics
+              </h3>
+              <p id="job-title" class="text-[#64748B]">Data Engineer</p>
+            </div>
+            <button class="btn card-delete-btn">
+              <i class="fa-regular fa-trash-can"></i>
+            </button>
+          </div>
+          <div>
+            <p
+              class="text-[#64748B] text-[14px] loading-[20px] max-sm:grid max-sm:grid-cols-1"
+            >
+              <span id="location">Onsite</span
+              ><span class="max-sm:hidden"> • </span
+              ><span id="job-time">Full-time</span
+              ><span class="max-sm:hidden"> • </span>
+              <span id="job-salary">$105,000 - $135,000</span>
+            </p>
+          </div>
+          <div>
+            <p
+              id="status"
+              class="text-[#002C5C] py-3 px-2 bg-[#EEF4FF] w-fit text-[14px] loading-[20px] font-medium mb-2"
+            >
+              Not Applied
+            </p>
+            <p id="note">
+              Design and maintain data pipelines supporting large-scale business
+              intelligence systems.
+            </p>
+          </div>
+          <div id="buttons">
+            <button id="" class="btn btn-success btn-outline interview-btn">
+              Interviewed
+            </button>
+            <button id="" class="btn btn-error btn-outline rejected-btn">
+              Rejected
+            </button>
+          </div>
+        </div>
+
+        <!-- Card 7 -->
+        <div class="space-y-5 p-6 bg-base-200 rounded-md">
+          <div id="job-title-container" class="flex justify-between">
+            <div>
+              <h3 id="company" class="text-[18px] font-semibold text-[#002C5C]">
+                SecureStack Ltd
+              </h3>
+              <p id="job-title" class="text-[#64748B]">Cybersecurity Analyst</p>
+            </div>
+            <button class="btn card-delete-btn">
+              <i class="fa-regular fa-trash-can"></i>
+            </button>
+          </div>
+          <div>
+            <p
+              class="text-[#64748B] text-[14px] loading-[20px] max-sm:grid max-sm:grid-cols-1"
+            >
+              <span id="location">Hybrid</span
+              ><span class="max-sm:hidden"> • </span
+              ><span id="job-time">Full-time</span
+              ><span class="max-sm:hidden"> • </span>
+              <span id="job-salary">$95,000 - $125,000</span>
+            </p>
+          </div>
+          <div>
+            <p
+              id="status"
+              class="text-[#002C5C] py-3 px-2 bg-[#EEF4FF] w-fit text-[14px] loading-[20px] font-medium mb-2"
+            >
+              Not Applied
+            </p>
+            <p id="note">
+              Monitor systems, perform vulnerability assessments, and ensure
+              infrastructure security compliance.
+            </p>
+          </div>
+          <div id="buttons">
+            <button id="" class="btn btn-success btn-outline interview-btn">
+              Interviewed
+            </button>
+            <button id="" class="btn btn-error btn-outline rejected-btn">
+              Rejected
+            </button>
+          </div>
+        </div>
+
+        <!-- Card 8 -->
+        <div class="space-y-5 p-6 bg-base-200 rounded-md">
+          <div id="job-title-container" class="flex justify-between">
+            <div>
+              <h3 id="company" class="text-[18px] font-semibold text-[#002C5C]">
+                NextWave Digital
+              </h3>
+              <p id="job-title" class="text-[#64748B]">DevOps Engineer</p>
+            </div>
+            <button class="btn card-delete-btn">
+              <i class="fa-regular fa-trash-can"></i>
+            </button>
+          </div>
+          <div>
+            <p
+              class="text-[#64748B] text-[14px] loading-[20px] max-sm:grid max-sm:grid-cols-1"
+            >
+              <span id="location">Remote</span
+              ><span class="max-sm:hidden"> • </span
+              ><span id="job-time">Contract</span
+              ><span class="max-sm:hidden"> • </span>
+              <span id="job-salary">$115,000 - $150,000</span>
+            </p>
+          </div>
+          <div>
+            <p
+              id="status"
+              class="text-[#002C5C] py-3 px-2 bg-[#EEF4FF] w-fit text-[14px] loading-[20px] font-medium mb-2"
+            >
+              Not Applied
+            </p>
+            <p id="note">
+              Automate deployments, manage cloud environments, and optimize
+              CI/CD pipelines for scalable applications.
+            </p>
+          </div>
+          <div id="buttons">
+            <button id="" class="btn btn-success btn-outline interview-btn">
+              Interviewed
+            </button>
+            <button id="" class="btn btn-error btn-outline rejected-btn">
+              Rejected
+            </button>
+          </div>
+        </div>
+      </section>
+    </main>
+    <!-- <script src="./script.js"></script> -->
+    <script src="./script2.js"></script>
+    <!-- <script src="./script3.js"></script> -->
+  </body>
+</html>
